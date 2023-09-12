@@ -1,1 +1,26 @@
+import h5py
 
+# Specify the path to the h5 file
+file_path = r'data\pancreas_data\data0017.h5'
+
+# Open the h5 file in read mode
+with h5py.File(file_path, 'r') as f:
+    # List all the keys (dataset names) present in the h5 file
+    keys = list(f.keys())
+    print("Keys in the h5 file:", keys)
+
+    # Iterate through each key and read its content
+    for key in keys:
+        print(f"Dataset '{key}':")
+        dataset = f[key]
+
+        # Check if the dataset is a numpy array or a group (contains sub-datasets)
+        if isinstance(dataset, h5py.Dataset):
+            # If the dataset is a numpy array, print its shape and type
+            print("  Shape:", dataset.shape)
+            print("  Data Type:", dataset.dtype)
+        elif isinstance(dataset, h5py.Group):
+            # If the dataset is a group, print the names of sub-datasets
+            sub_datasets = list(dataset.keys())
+            print("  Sub-datasets:", sub_datasets)
+        print()
